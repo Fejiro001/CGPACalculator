@@ -8,7 +8,8 @@ public class Main {
     public static void main(String[] args) {
 
         DecimalFormat df2 = new DecimalFormat("#.##");
-        int courses;
+        int coursesNumber;
+        String[] courses;
         String[] courseCredits;
         String[] courseGrade;
         double cgpa = 0;
@@ -19,8 +20,11 @@ public class Main {
         //Accept user input
         Scanner scanner = new Scanner(System.in);
 
+        System.out.println("Enter the course code of the courses you are offering:");
+        courses = scanner.nextLine().split(" ");
+
         System.out.println("Enter the number of courses you are offering:");
-        courses = scanner.nextInt();
+        coursesNumber = scanner.nextInt();
 
         scanner.nextLine();
         System.out.println("Enter your course credits (space out the values):");
@@ -29,10 +33,10 @@ public class Main {
         System.out.println("Enter your grades matching the course credits (space out the letters):");
         courseGrade = scanner.nextLine().split(" ");
 
-        int[] courseGradeValue = new int[courses];
+        int[] courseGradeValue = new int[coursesNumber];
 
         //Value for each grade
-        for (int i = 0; i < courses; i++) {
+        for (int i = 0; i < coursesNumber; i++) {
             switch (courseGrade[i]) {
                 case "A" -> courseGradeValue[i] = 5;
                 case "B" -> courseGradeValue[i] = 4;
@@ -47,7 +51,7 @@ public class Main {
         /*The numerator is calculated first
         * Then the denominator
         * They divide each other to produce the cgpa*/
-        for (int i = 0; i < courses; i++) {
+        for (int i = 0; i < coursesNumber; i++) {
             creditTimesGrade += (Double.parseDouble(courseCredits[i]) * courseGradeValue[i]);
             totalCredit += Double.parseDouble(courseCredits[i]);
             cgpa = creditTimesGrade/totalCredit;
@@ -75,6 +79,8 @@ public class Main {
             String userHomeFolder = System.getProperty("user.home");
             File file = new File(userHomeFolder, "cgpafile.txt");
             bufferedWriter = new BufferedWriter(new FileWriter(file));
+            bufferedWriter.write(Arrays.toString(courses));
+            bufferedWriter.newLine();
             bufferedWriter.write(Arrays.toString(courseCredits));
             bufferedWriter.newLine();
             bufferedWriter.write(Arrays.toString(courseGrade));
